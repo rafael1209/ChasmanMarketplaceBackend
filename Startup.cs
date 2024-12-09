@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MarketplaceBackend.Data;
+using MarketplaceBackend.Repositories;
+using MarketplaceBackend.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.OpenApi.Models;
 
@@ -44,6 +47,14 @@ namespace MarketplaceBackend
                     }
                 });
             });
+
+            // MongoDB settings
+            var mongoConnectionString = "marketplace-staging-clu.hblkwdb.mongodb.net/";
+            services.AddSingleton(new MongoDbContext(mongoConnectionString));
+
+            // Register repositories and services
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ProductService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
