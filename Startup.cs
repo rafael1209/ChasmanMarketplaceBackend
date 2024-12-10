@@ -53,6 +53,9 @@ namespace MarketplaceBackend
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ProductService>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

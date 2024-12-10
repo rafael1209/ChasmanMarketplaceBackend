@@ -7,6 +7,7 @@ namespace MarketplaceBackend.Data
     {
         private readonly IMongoDatabase _database;
         private const string ConstProductsCollection = "products";
+        private const string ConstUsersCollection = "users";
 
         public MongoDbContext(IConfiguration configuration)
         {
@@ -14,6 +15,8 @@ namespace MarketplaceBackend.Data
             _database = client.GetDatabase(configuration.GetValue<string>("MongoDb:Name"));
         }
 
-        public virtual IMongoCollection<Product> Products => _database.GetCollection<Product>(ConstProductsCollection);
+        public IMongoCollection<Product> Products => _database.GetCollection<Product>(ConstProductsCollection);
+
+        public IMongoCollection<User> Users => _database.GetCollection<User>(ConstUsersCollection);
     }
 }

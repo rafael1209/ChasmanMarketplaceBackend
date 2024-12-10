@@ -6,5 +6,7 @@ namespace MarketplaceBackend.Data
     public interface IMongoDbContext
     {
         IMongoCollection<Product> Products { get; }
+
+        IMongoCollection<User> Users { get; }
     }
 }
