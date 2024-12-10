@@ -48,11 +48,9 @@ namespace MarketplaceBackend
                 });
             });
 
-            // MongoDB settings
-            var mongoConnectionString = "marketplace-staging-clu.hblkwdb.mongodb.net/";
-            services.AddSingleton(new MongoDbContext(mongoConnectionString));
+            services.AddSingleton<MongoDbContext>();
 
-            // Register repositories and services
+
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ProductService>();
         }
