@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35521.163 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketplaceBackend", "MarketplaceBackend.csproj", "{C6482E37-90C0-454E-A4C4-8CD5993C939B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketplaceBackend", "src\MarketplaceBackend.csproj", "{C6482E37-90C0-454E-A4C4-8CD5993C939B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketplaceBackend.Tests", "..\MarketplaceBackend.Tests\MarketplaceBackend.Tests.csproj", "{04AE51EA-43D5-4B1E-B431-ECED7F008679}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketplaceBackend.Tests", "tests\MarketplaceBackend.Tests.csproj", "{04AE51EA-43D5-4B1E-B431-ECED7F008679}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
