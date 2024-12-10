@@ -14,30 +14,26 @@ namespace MarketplaceBackend.Repositories
 
         public async Task<List<User>> GetAllAsync()
         {
-            return await _users.Find(user => true).ToListAsync(); // Получаем всех пользователей
+            return await _users.Find(user => true).ToListAsync();
         }
 
-        // Получить пользователя по ID
         public async Task<User> GetByIdAsync(string id)
         {
             var userID = ObjectId.Parse(id);
 
-            return await _users.Find(user => user.Id == userID).FirstOrDefaultAsync(); // Ищем пользователя по ID
+            return await _users.Find(user => user.Id == userID).FirstOrDefaultAsync();
         }
 
-        // Создать нового пользователя
         public async Task CreateAsync(User user)
         {
-            if (user == null) throw new ArgumentNullException(nameof(user)); // Проверка на null
+            if (user == null) throw new ArgumentNullException(nameof(user));
 
-            // Добавляем пользователя в коллекцию
             await _users.InsertOneAsync(user);
         }
 
-        // Обновить данные пользователя
         public async Task UpdateAsync(string id, User user)
         {
-            if (user == null) throw new ArgumentNullException(nameof(user)); // Проверка на null
+            if (user == null) throw new ArgumentNullException(nameof(user));
 
             var userID = ObjectId.Parse(id);
 
@@ -49,12 +45,11 @@ namespace MarketplaceBackend.Repositories
             }
         }
 
-        // Удалить пользователя по ID
         public async Task DeleteAsync(string id)
         {
             var userID = ObjectId.Parse(id);
 
-            var result = await _users.DeleteOneAsync(user => user.Id == userID); // Удаляем пользователя по ID
+            var result = await _users.DeleteOneAsync(user => user.Id == userID);
 
             if (result.DeletedCount == 0)
             {

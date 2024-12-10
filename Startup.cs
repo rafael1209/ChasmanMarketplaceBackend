@@ -50,7 +50,6 @@ namespace MarketplaceBackend
 
             services.AddSingleton<MongoDbContext>();
 
-
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ProductService>();
 

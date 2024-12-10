@@ -9,14 +9,14 @@ namespace MarketplaceBackend.Controllers
     public class ProductsController(ProductService productService) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             var products = await productService.GetAllAsync();
             return Ok(products);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
             var product = await productService.GetByIdAsync(id);
             if (product == null)
@@ -25,21 +25,22 @@ namespace MarketplaceBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(Product product)
+        public async Task<IActionResult> Create(Product product)
         {
             await productService.CreateAsync(product);
+
             return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(string id, Product product)
+        public async Task<IActionResult> Update(string id, Product product)
         {
             await productService.UpdateAsync(id, product);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             await productService.DeleteAsync(id);
             return NoContent();
