@@ -3,9 +3,11 @@ using MarketplaceBackend.Models;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using MarketplaceBackend.Interfaces;
 using MongoDB.Bson;
+using System.Text;
 
 namespace MarketplaceBackend.Repositories
 {
@@ -56,6 +58,46 @@ namespace MarketplaceBackend.Repositories
             {
                 throw new Exception("User not found.");
             }
+        }
+
+        public async Task<User?> ValidateUserCredentialsAsync(string email, string password)
+        {
+            var user = await _users.Find(u => u.Email == email).FirstOrDefaultAsync();
+            if (user == null) return null;
+
+            var hashedPassword = HashPassword(password);
+            return user.PasswordHash == hashedPassword ? user : null;
+        }
+
+        public async Task<(bool Success, string ErrorMessage, User? User)> RegisterUserAsync(string email, string password, string username)
+        {
+            var existingUser = await _users.Find(u => u.Email == email).FirstOrDefaultAsync();
+            if (existingUser != null)
+            {
+                return (false, "User with this email already exists.", null);
+            }
+
+            var hashedPassword = HashPassword(password);
+
+            var newUser = new User
+            {
+                Id = ObjectId.GenerateNewId(),
+                Email = email,
+                PasswordHash = hashedPassword,
+                Username = username,
+                FirstName = null
+            };
+
+            await _users.InsertOneAsync(newUser);
+            return (true, string.Empty, newUser);
+        }
+
+        private string HashPassword(string password)
+        {
+            using var sha256 = SHA256.Create();
+            var bytes = Encoding.UTF8.GetBytes(password);
+            var hash = sha256.ComputeHash(bytes);
+            return Convert.ToBase64String(hash);
         }
     }
 }

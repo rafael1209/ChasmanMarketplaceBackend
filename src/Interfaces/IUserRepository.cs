@@ -9,5 +9,7 @@ namespace MarketplaceBackend.Interfaces
         Task CreateAsync(User user);
         Task UpdateAsync(string id, User user);
         Task DeleteAsync(string id);
+        Task<User?> ValidateUserCredentialsAsync(string email, string password);
+        Task<(bool Success, string ErrorMessage, User User)> RegisterUserAsync(string email, string password, string username);
     }
 }
