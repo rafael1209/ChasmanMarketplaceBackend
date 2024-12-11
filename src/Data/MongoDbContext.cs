@@ -6,6 +6,7 @@ namespace MarketplaceBackend.Data
     public class MongoDbContext : IMongoDbContext
     {
         private readonly IMongoDatabase _database;
+
         private const string ConstProductsCollection = "products";
         private const string ConstUsersCollection = "users";
 
