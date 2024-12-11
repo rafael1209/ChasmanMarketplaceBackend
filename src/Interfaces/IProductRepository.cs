@@ -1,6 +1,6 @@
 ﻿using MarketplaceBackend.Models;
 
-namespace MarketplaceBackend.Repositories
+namespace MarketplaceBackend.Interfaces
 {
     public interface IProductRepository
     {

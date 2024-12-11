@@ -1,4 +1,5 @@
-﻿using MarketplaceBackend.Models;
+﻿using MarketplaceBackend.Interfaces;
+using MarketplaceBackend.Models;
 using MarketplaceBackend.Repositories;
 
 namespace MarketplaceBackend.Services

@@ -1,4 +1,5 @@
 ﻿using MarketplaceBackend.Data;
+using MarketplaceBackend.Interfaces;
 using MarketplaceBackend.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;

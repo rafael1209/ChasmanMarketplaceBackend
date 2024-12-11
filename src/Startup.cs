@@ -1,4 +1,5 @@
 ﻿using MarketplaceBackend.Data;
+using MarketplaceBackend.Interfaces;
 using MarketplaceBackend.Repositories;
 using MarketplaceBackend.Services;
 using Microsoft.AspNetCore.Builder;
@@ -55,6 +56,8 @@ namespace MarketplaceBackend
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<UserService>();
+
+            services.AddScoped<IGoogleAuthService, GoogleAuthService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
