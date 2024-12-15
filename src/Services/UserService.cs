@@ -12,7 +12,7 @@ namespace MarketplaceBackend.Services
             return await userRepository.GetAllAsync();
         }
 
-        public async Task<User> GetByIdAsync(ObjectId id)
+        public async Task<User?> GetByIdAsync(ObjectId id)
         {
             return await userRepository.GetByIdAsync(id);
         }

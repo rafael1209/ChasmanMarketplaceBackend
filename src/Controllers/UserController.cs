@@ -3,6 +3,7 @@ using MarketplaceBackend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using MongoDB.Bson;
 
 namespace MarketplaceBackend.Controllers
 {
@@ -39,8 +40,10 @@ namespace MarketplaceBackend.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(string id)
         {
-            var user = await userService.GetByIdAsync(id);
+            var user = await userService.GetByIdAsync(ObjectId.Parse(id));
+
             if (user == null) return NotFound();
+
             return Ok(user);
         }
 
