@@ -5,14 +5,17 @@ using MarketplaceBackend.DTOs;
 using MarketplaceBackend.Interfaces;
 using MarketplaceBackend.Models;
 using MarketplaceBackend.Repositories;
+using System;
 
 namespace MarketplaceBackend.Services;
 
-public class GoogleAuthService(IConfiguration configuration, IUserRepository _userRepository) : IGoogleAuthService
+public class GoogleAuthService(IConfiguration configuration, IUserRepository userRepository) : IGoogleAuthService
 {
-    private readonly string _clientId = configuration["GoogleAuthCredentials:ClientId"]!;
-    private readonly string _clientSecret = configuration["GoogleAuthCredentials:ClientSecret"]!;
-    private readonly string _redirectUri = configuration["GoogleAuthCredentials:RedirectUri"]!;
+    private readonly IUserRepository _userRepository = userRepository;
+
+    private readonly string? _clientId = configuration["GoogleAuthCredentials:ClientId"];
+    private readonly string? _clientSecret = configuration["GoogleAuthCredentials:ClientSecret"];
+    private readonly string? _redirectUri = configuration["GoogleAuthCredentials:RedirectUri"];
 
     public Uri GetGoogleAuthUrl()
     {
@@ -23,13 +26,13 @@ public class GoogleAuthService(IConfiguration configuration, IUserRepository _us
                 ClientId = _clientId,
                 ClientSecret = _clientSecret
             },
-            Scopes = new[] { "email", "profile" }
+            Scopes = ["email", "profile"]
         });
 
         return flow.CreateAuthorizationCodeRequest(_redirectUri).Build();
     }
 
-    public async Task<GoogleAuthResultDto?> HandleGoogleCallbackAsync(string code)
+    public async Task<GoogleJsonWebSignature.Payload?> HandleGoogleCallbackAsync(string code)
     {
         try
         {
@@ -46,13 +49,7 @@ public class GoogleAuthService(IConfiguration configuration, IUserRepository _us
 
             var payload = await GoogleJsonWebSignature.ValidateAsync(tokenResponse.IdToken);
 
-            return new GoogleAuthResultDto
-            {
-                AuthToken = payload.Email,
-                Email = payload.Email,
-                Username = payload.Email,
-                AvatarUri = payload.Picture
-            };
+            return payload;
         }
         catch
         {

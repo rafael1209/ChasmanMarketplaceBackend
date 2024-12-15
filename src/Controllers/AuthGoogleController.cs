@@ -1,13 +1,15 @@
 ﻿using MarketplaceBackend.Interfaces;
+using MarketplaceBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketplaceBackend.Controllers;
 
 [ApiController]
 [Route("api/v1/auth/google")]
-public class AuthGoogleController(IGoogleAuthService googleAuthService) : ControllerBase
+public class AuthGoogleController(IGoogleAuthService googleAuthService, UserService userService) : ControllerBase
 {
     private readonly IGoogleAuthService _googleAuthService = googleAuthService;
+    private readonly UserService _userService = userService;
 
     [HttpGet("url")]
     public IActionResult GetAuthUrl()
@@ -32,16 +34,13 @@ public class AuthGoogleController(IGoogleAuthService googleAuthService) : Contro
         try
         {
             var result = await _googleAuthService.HandleGoogleCallbackAsync(code);
+
             if (result == null)
                 return BadRequest(new { error = "Invalid authorization code or failed to authenticate." });
 
-            return Ok(new
-            {
-                result.AuthToken,
-                result.Email,
-                result.Username,
-                result.AvatarUri
-            });
+            var user = await _userService.GetOrCreateUserByEmailAsync(result);
+
+            return Ok(new { user });
         }
         catch (Exception ex)
         {

@@ -14,6 +14,9 @@ public class AccountSecurity
     [BsonElement("refreshToken")]
     public string? RefreshToken { get; set; }
 
+    [BsonElement("refreshTokenExpiryUtc")]
+    public DateTime? RefreshTokenExpirationUtc { get; set; }
+
     [BsonElement("lastLogin")]
     public DateTime? LastLoginUtc { get; set; }
 }

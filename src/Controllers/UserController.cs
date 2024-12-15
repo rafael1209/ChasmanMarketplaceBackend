@@ -12,21 +12,15 @@ namespace MarketplaceBackend.Controllers
     public class UserController(UserService userService) : ControllerBase
     {
         [HttpGet("me")]
-        [Authorize]
         public async Task<IActionResult> GetCurrentUser()
         {
             Request.Headers.TryGetValue("Authorization", out var token);
 
-            var user = await userService.GetByIdAsync(userId);
-
-            if (string.IsNullOrEmpty(userId))
-                return Unauthorized(new { message = "Invalid or missing auth token" });
-
+            var user = await userService.GetByAuthTokenAsync(token.ToString());
 
             if (user == null)
-                return NotFound(new { message = "User not found" });
+                return Unauthorized(new { message = "Invalid or missing auth token" });
 
-            // Возвращаем все данные пользователя
             return Ok(user);
         }
 

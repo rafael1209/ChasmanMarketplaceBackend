@@ -1,10 +1,11 @@
-﻿using MarketplaceBackend.DTOs;
+﻿using Google.Apis.Auth;
+using MarketplaceBackend.DTOs;
 
 namespace MarketplaceBackend.Interfaces
 {
     public interface IGoogleAuthService
     {
         Uri GetGoogleAuthUrl();
-        Task<GoogleAuthResultDto?> HandleGoogleCallbackAsync(string code);
+        Task<GoogleJsonWebSignature.Payload?> HandleGoogleCallbackAsync(string code);
     }
 }

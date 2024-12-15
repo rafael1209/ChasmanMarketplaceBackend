@@ -1,5 +1,5 @@
 ﻿using MarketplaceBackend.Interfaces;
-using MarketplaceBackend.Models;
+using MarketplaceBackend.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +15,6 @@ namespace MarketplaceBackend.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLogin loginModel)
         {
-            if (string.IsNullOrEmpty(loginModel.Email) || string.IsNullOrEmpty(loginModel.Password))
-                return BadRequest(new { error = "Email and password are required." });
-
             try
             {
                 var user = await _userService.ValidateUserCredentialsAsync(loginModel.Email, loginModel.Password);
@@ -27,8 +24,8 @@ namespace MarketplaceBackend.Controllers
 
                 return Ok(new
                 {
-                    Email = user.Email,
-                    Username = user.Username
+                    refreshToken = user.SecurityData?.RefreshToken,
+                    authToken = user.SecurityData?.AuthToken
                 });
             }
             catch (Exception ex)
@@ -46,7 +43,8 @@ namespace MarketplaceBackend.Controllers
 
             try
             {
-                var result = await _userService.RegisterUserAsync(registerModel.Email, registerModel.Password, registerModel.Username);
+                var result = await _userService.RegisterUserAsync(registerModel);
+
                 if (!result.Success)
                     return BadRequest(new { error = result.ErrorMessage });
 

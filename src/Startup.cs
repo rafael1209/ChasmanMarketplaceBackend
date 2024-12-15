@@ -1,4 +1,5 @@
 ﻿using MarketplaceBackend.Data;
+using MarketplaceBackend.Helpers;
 using MarketplaceBackend.Interfaces;
 using MarketplaceBackend.Repositories;
 using MarketplaceBackend.Services;
@@ -58,6 +59,8 @@ namespace MarketplaceBackend
             services.AddScoped<UserService>();
 
             services.AddScoped<IGoogleAuthService, GoogleAuthService>();
+
+            services.AddScoped<ITokenService, AuthTokenProvider>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
