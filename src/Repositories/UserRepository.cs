@@ -26,6 +26,10 @@ namespace MarketplaceBackend.Repositories
 
             return await _users.Find(user => user.Id == userID).FirstOrDefaultAsync();
         }
+        public async Task<User?> GetByAuthTokenAsync(string authToken)
+        {
+            return await _users.Find(user => user.AuthToken == authToken).FirstOrDefaultAsync();
+        }
 
         public async Task CreateAsync(User user)
         {

@@ -1,11 +1,13 @@
 ﻿using MarketplaceBackend.Models;
+using MongoDB.Bson;
 
 namespace MarketplaceBackend.Interfaces
 {
     public interface IUserRepository
     {
         Task<List<User>> GetAllAsync();
-        Task<User> GetByIdAsync(string id);
+        Task<User> GetByIdAsync(ObjectId id);
+        Task<User?> GetByAuthTokenAsync(string authToken);
         Task CreateAsync(User user);
         Task UpdateAsync(string id, User user);
         Task DeleteAsync(string id);

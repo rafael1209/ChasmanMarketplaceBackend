@@ -1,6 +1,5 @@
 ﻿using MarketplaceBackend.Interfaces;
 using MarketplaceBackend.Models;
-using MarketplaceBackend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

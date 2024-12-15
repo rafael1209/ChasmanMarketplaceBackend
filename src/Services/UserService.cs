@@ -12,9 +12,13 @@ namespace MarketplaceBackend.Services
             return await userRepository.GetAllAsync();
         }
 
-        public async Task<User> GetByIdAsync(string id)
+        public async Task<User> GetByIdAsync(ObjectId id)
         {
             return await userRepository.GetByIdAsync(id);
+        }
+        public async Task<User?> GetByAuthTokenAsync(string authToken)
+        {
+            return await userRepository.GetByAuthTokenAsync(authToken);
         }
 
         public async Task CreateAsync(User user)

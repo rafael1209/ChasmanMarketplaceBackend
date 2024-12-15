@@ -1,6 +1,8 @@
 ﻿using MarketplaceBackend.Models;
 using MarketplaceBackend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MarketplaceBackend.Controllers
 {
@@ -8,6 +10,25 @@ namespace MarketplaceBackend.Controllers
     [Route("api/users")]
     public class UserController(UserService userService) : ControllerBase
     {
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            Request.Headers.TryGetValue("Authorization", out var token);
+
+            var user = await userService.GetByIdAsync(userId);
+
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { message = "Invalid or missing auth token" });
+
+
+            if (user == null)
+                return NotFound(new { message = "User not found" });
+
+            // Возвращаем все данные пользователя
+            return Ok(user);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
