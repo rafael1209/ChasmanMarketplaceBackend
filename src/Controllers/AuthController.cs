@@ -1,4 +1,5 @@
-﻿using MarketplaceBackend.Models;
+﻿using MarketplaceBackend.Interfaces;
+using MarketplaceBackend.Models;
 using MarketplaceBackend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +8,9 @@ namespace MarketplaceBackend.Controllers
 {
     [ApiController]
     [Route("api/v1/auth")]
-    public class AuthController(Interfaces.IUserRepository userService) : ControllerBase
+    public class AuthController(IUserRepository userService) : ControllerBase
     {
-        private readonly Interfaces.IUserRepository _userService = userService;
+        private readonly IUserRepository _userService = userService;
 
         [AllowAnonymous]
         [HttpPost("login")]
