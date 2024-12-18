@@ -110,6 +110,7 @@ namespace MarketplaceBackend.Repositories
             };
 
             await _users.InsertOneAsync(newUser);
+
             return (true, string.Empty, newUser);
         }
 

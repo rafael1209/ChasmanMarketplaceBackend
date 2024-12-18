@@ -7,9 +7,9 @@ namespace MarketplaceBackend.Controllers
 {
     [ApiController]
     [Route("api/v1/auth")]
-    public class AuthController(IUserRepository userService) : ControllerBase
+    public class AuthController(IUserRepository userRepository) : ControllerBase
     {
-        private readonly IUserRepository _userService = userService;
+        private readonly IUserRepository _userRepository = userRepository;
 
         [AllowAnonymous]
         [HttpPost("login")]
@@ -17,7 +17,7 @@ namespace MarketplaceBackend.Controllers
         {
             try
             {
-                var user = await _userService.ValidateUserCredentialsAsync(loginModel.Email, loginModel.Password);
+                var user = await _userRepository.ValidateUserCredentialsAsync(loginModel.Email, loginModel.Password);
 
                 if (user == null)
                     return Unauthorized(new { error = "Invalid email or password." });
@@ -43,7 +43,7 @@ namespace MarketplaceBackend.Controllers
 
             try
             {
-                var result = await _userService.RegisterUserAsync(registerModel);
+                var result = await _userRepository.RegisterUserAsync(registerModel);
 
                 if (!result.Success)
                     return BadRequest(new { error = result.ErrorMessage });
